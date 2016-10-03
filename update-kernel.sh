@@ -8,8 +8,10 @@ git checkout master
 git pull
  
 syscript apply-kernel-patches.sh
-
 cp ${SCRIPTS}/configs/kernel-config .config
+
+git add .
+git commit -m "Prepare for Kernel Build"
 
 make -j ${BUILD_JOBS}
 
