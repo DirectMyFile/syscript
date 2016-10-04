@@ -8,12 +8,13 @@ git checkout master
 git pull
  
 syscript apply-kernel-patches.sh
+rm -rf .config
 cp ${SCRIPTS}/configs/kernel-config .config
 
 git add .
 git commit -m "Prepare for Kernel Build"
 
-make -j ${BUILD_JOBS}
+make ARCH="$(uname -m)" CC="${KERNEL_CC}" -j ${BUILD_JOBS}
 
 git reset --hard origin/master
 
