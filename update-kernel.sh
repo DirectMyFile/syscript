@@ -5,6 +5,7 @@ source "$(dirname $0)/common.sh"
 
 cd ${KERNEL_DIR}
 
+syshook pre-update-kernel
 syshook pre-update-kernel-pull-changes
 git checkout master
 git pull

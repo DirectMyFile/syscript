@@ -8,7 +8,7 @@ cd ${KERNEL_DIR}
 syshook pre-kernel-patch
 git checkout master
 git reset --hard origin/master
-for PATCH in $(ls ${SCRIPTS}/patches)
+for PATCH in $(ls ${SCRIPTS}/patches/*.patch)
 do
   echo "[Apply Patch] ${PATCH}"
   syshook pre-apply-kernel-patch ${PATCH}
