@@ -4,20 +4,28 @@ set -e
 source "$(dirname $0)/common.sh"
 
 cd ${KERNEL_DIR}
+
+syshook pre-update-kernel-pull-changes
 git checkout master
 git pull
+syshook post-update-kernel-pull-changes
  
 syscript apply-kernel-patches.sh
 rm -rf .config
 cp ${SCRIPTS}/configs/kernel-config .config
 
+syshook post-update-kernel-copy-config
+
 git add .
 git commit -m "Prepare for Kernel Build"
 
 make olddefconfig
+syshook post-update-kernel-update-config
 cp ${SCRIPTS}/configs/kernel-config ${SCRIPTS}/configs/kernel-config-bak
 cp .config ${SCRIPTS}/configs/kernel-config
+syshook post-update-kernel-apply-config
 make ARCH="$(uname -m)" CC="${KERNEL_CC}" -j ${BUILD_JOBS}
+syshook post-update-kernel-make
 
 git reset --hard origin/master
 
@@ -30,6 +38,7 @@ sudo mkinitcpio -p linux-${KERNEL_SUFFIX}
 sudo cp System.map /boot/System.map-${KERNEL_SUFFIX}
 syscript update-grub-config.sh
 sudo dkms autoinstall
+syshook post-update-kernel-tasks
 
-echo "Built kernel ${KERNEL_VERSION}"
-
+echo "[Updated Kernel] ${KERNEL_VERSION}"
+syshook post-update-kernel
