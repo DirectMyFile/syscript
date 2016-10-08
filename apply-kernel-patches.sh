@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+source "$(dirname $0)/common.sh"
+
 cd ${KERNEL_DIR}
 
 syshook pre-kernel-patch
