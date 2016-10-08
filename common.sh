@@ -12,7 +12,7 @@ KERNEL_SUFFIX="dc"
 KERNEL_CC="gcc"
 USE_CCACHE="true"
 
-echo "Kernel Directory: ${KERNEL_DIR}"
+echo "[Kernel Directory] ${KERNEL_DIR}"
 
 if [ -f ${SCRIPTS}/configs/syscript.sh ]
 then
@@ -22,7 +22,7 @@ fi
 if [ "${USE_CCACHE}" == "true" ] && which ccache > /dev/null 2>&1
 then
   KERNEL_CC="ccache ${KERNEL_CC}"
-  echo "CCache is configured."
+  echo "[CCache] Configured."
 fi
 
 ########################################
