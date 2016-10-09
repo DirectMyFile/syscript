@@ -40,8 +40,10 @@ syshook() {
   shift
   if [ -x "${SCRIPTS}/hooks/${HOOK}" ]
   then
+    echo "[Hook] ${HOOK}"
     ${SCRIPTS}/hooks/${HOOK} "${@}"
   fi
 }
 
 export SCRIPTS KERNEL_DIR BUILD_JOBS KERNEL_SUFFIX KERNEL_CC
+
