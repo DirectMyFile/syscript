@@ -6,7 +6,7 @@ SCRIPTS=$(realpath $(dirname $0))
 ########################################
 # System Scripts Default Configuration #
 ########################################
-BUILD_JOBS="16"
+BUILD_JOBS="32"
 KERNEL_DIR="$(dirname ${SCRIPTS})/Kernel"
 KERNEL_SUFFIX="dc"
 KERNEL_CC="gcc"
