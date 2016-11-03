@@ -1,3 +1,10 @@
+# Instance Specific
 configs/
 patches/
 hooks/
+
+# IDE
+.idea/
+*.iml
+
+
