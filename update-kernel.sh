@@ -3,7 +3,7 @@ set -e
 
 source "$(dirname $0)/common.sh"
 
-cd ${KERNEL_DIR}
+goto-kernel-dir
 
 syshook pre-update-kernel
 syshook pre-update-kernel-pull-changes
@@ -12,8 +12,8 @@ git pull
 syshook post-update-kernel-pull-changes
  
 syscript apply-kernel-patches.sh
-rm -rf .config
-cp ${SCRIPTS}/configs/kernel-config .config
+sudo rm -rf .config
+cp "${USER_CFG_DIR}/configs/kernel-config" .config
 
 syshook post-update-kernel-copy-config
 
@@ -23,8 +23,8 @@ git commit -m "Prepare for Kernel Build"
 make olddefconfig
 make prepare
 syshook post-update-kernel-update-config
-cp ${SCRIPTS}/configs/kernel-config ${SCRIPTS}/configs/kernel-config-bak
-cp .config ${SCRIPTS}/configs/kernel-config
+cp "${USER_CFG_DIR}/configs/kernel-config" "${USER_CFG_DIR}/configs/kernel-config-bak"
+cp .config "${USER_CFG_DIR}/configs/kernel-config"
 syshook post-update-kernel-apply-config
 make ARCH="$(uname -m)" CC="${KERNEL_CC}" -j ${BUILD_JOBS}
 syshook post-update-kernel-make
