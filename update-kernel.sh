@@ -21,6 +21,7 @@ git add .
 git commit -m "Prepare for Kernel Build"
 
 make olddefconfig
+make prepare
 syshook post-update-kernel-update-config
 cp ${SCRIPTS}/configs/kernel-config ${SCRIPTS}/configs/kernel-config-bak
 cp .config ${SCRIPTS}/configs/kernel-config
@@ -43,3 +44,7 @@ syshook post-update-kernel-tasks
 
 echo "[Updated Kernel] ${KERNEL_VERSION}"
 syshook post-update-kernel
+
+sudo make clean
+sudo make mrproper
+
