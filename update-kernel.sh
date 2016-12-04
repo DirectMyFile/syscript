@@ -6,6 +6,9 @@ source "$(dirname $0)/common.sh"
 
 goto-kernel-dir
 
+sudo make clean
+sudo make mrproper
+
 syshook pre-update-kernel
 syshook pre-update-kernel-pull-changes
 git checkout master
@@ -56,6 +59,3 @@ syshook post-update-kernel-tasks
 
 echo "[Updated Kernel] ${KERNEL_VERSION}"
 syshook post-update-kernel
-
-sudo make clean
-sudo make mrproper
