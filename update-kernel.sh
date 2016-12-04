@@ -21,6 +21,17 @@ syshook post-update-kernel-copy-config
 git add .
 git commit -m "Prepare for Kernel Build"
 
+# shellcheck disable=SC2153
+for BUNDLE in "${BUNDLES[@]}"
+do
+  BUNDLE_PATH="${SCRIPTS}/bundles/${BUNDLE}"
+  if [ -f "${BUNDLE_PATH}/kernel-config-options" ]
+  then
+    echo "[Apply Bundle Kernel Options] ${BUNDLE}"
+    cat "${BUNDLE_PATH}/kernel-config-options" >> .config
+  fi
+done
+
 make olddefconfig
 make prepare
 syshook post-update-kernel-update-config
