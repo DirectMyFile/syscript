@@ -10,14 +10,13 @@ then
   CONFIG_TARGET="gconfig"
 fi
 
-cd ${KERNEL_DIR}
+goto-kernel-dir
 syscript apply-kernel-patches.sh
-cp ${SCRIPTS}/configs/kernel-config .config
+cp "${USER_CFG_DIR}/configs/kernel-config" .config
 make ${CONFIG_TARGET}
-cp .config ${SCRIPTS}/configs/kernel-config
+cp .config "${USER_CFG_DIR}/configs/kernel-config"
 
 if [[ "${@}" != *"-d"* ]]
 then
   syscript update-kernel.sh
 fi
-
