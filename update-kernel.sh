@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+# shellcheck source=common.sh
 source "$(dirname $0)/common.sh"
 
 goto-kernel-dir
@@ -10,7 +11,7 @@ syshook pre-update-kernel-pull-changes
 git checkout master
 git pull
 syshook post-update-kernel-pull-changes
- 
+
 syscript apply-kernel-patches.sh
 sudo rm -rf .config
 cp "${USER_CFG_DIR}/configs/kernel-config" .config
@@ -47,4 +48,3 @@ syshook post-update-kernel
 
 sudo make clean
 sudo make mrproper
-

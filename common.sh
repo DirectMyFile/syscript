@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-SCRIPTS=$(realpath $(dirname $0))
+SCRIPTS=$(realpath "$(dirname $0)")
 
 ########################################
 # System Scripts Default Configuration #
@@ -13,11 +13,29 @@ KERNEL_SUFFIX="dc"
 KERNEL_CC="gcc"
 USE_CCACHE="true"
 USER_CFG_DIR="${SCRIPTS}"
+
+if [ -d "$(dirname ${SCRIPTS})/Configs" ]
+then
+  USER_CFG_DIR="$(dirname ${SCRIPTS})/Configs"
+fi
+
+if [ -d "$(dirname ${SCRIPTS})/UserConfigs" ]
+then
+  USER_CFG_DIR="$(dirname ${SCRIPTS})/UserConfigs"
+fi
+
 BUNDLES=()
 
 if [ -f "${USER_CFG_DIR}/configs/syscript.sh" ]
 then
+  # shellcheck disable=SC1090
   source "${USER_CFG_DIR}/configs/syscript.sh"
+fi
+
+if [ -f "${USER_CFG_DIR}/configs/syscript" ]
+then
+  # shellcheck disable=SC1090
+  source "${USER_CFG_DIR}/configs/syscript"
 fi
 
 echo "[Kernel Directory] ${KERNEL_DIR}"
@@ -42,7 +60,7 @@ fetch-apply-patch() {
   URL="${1}"
   shift
   FILE=$(mktemp /tmp/syscript-patch.XXXXXX)
-  curl "${URL}" > ${FILE}
+  curl --silent "${URL}" > ${FILE}
   echo "[Apply Patch] ${URL}"
   git apply "${FILE}" "${@}"
   rm "${FILE}"
@@ -52,6 +70,7 @@ source-if-exists() {
   SCRIPT="${1}"
   if [ -f "${SCRIPT}" ]
   then
+    # shellcheck disable=SC1090
     source "${SCRIPT}"
   fi
 }
@@ -78,9 +97,9 @@ syshook() {
     "${USER_CFG_DIR}/hooks/${HOOK}" "${@}"
   fi
 
-  for BUNDLE in ${BUNDLES[@]}
+  for BUNDLE in "${BUNDLES[@]}"
   do
-    source-if-exists "${SCRIPTS}/bundles/bundle/${HOOK}"
+    source-if-exists "${SCRIPTS}/bundles/${BUNDLE}/${HOOK}"
   done
 }
 

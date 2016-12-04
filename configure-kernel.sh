@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+# shellcheck source=common.sh
 source "$(dirname $0)/common.sh"
 
 CONFIG_TARGET="nconfig"
