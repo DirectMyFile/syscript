@@ -40,6 +40,7 @@ make prepare
 syshook post-update-kernel-update-config
 cp "${USER_CFG_DIR}/configs/kernel-config" "${USER_CFG_DIR}/configs/kernel-config-bak"
 cp .config "${USER_CFG_DIR}/configs/kernel-config"
+
 syshook post-update-kernel-apply-config
 make ARCH="$(uname -m)" CC="${KERNEL_CC}" -j ${BUILD_JOBS}
 syshook post-update-kernel-make
