@@ -54,8 +54,6 @@ sudo make headers_install
 sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-linux-${KERNEL_SUFFIX}
 sudo mkinitcpio -p linux-${KERNEL_SUFFIX}
 sudo cp System.map /boot/System.map-${KERNEL_SUFFIX}
-syscript update-grub-config.sh
-sudo dkms autoinstall
 syshook post-update-kernel-tasks
 
 echo "[Updated Kernel] ${KERNEL_VERSION}"
