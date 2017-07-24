@@ -22,7 +22,7 @@ cp "${USER_CFG_DIR}/configs/kernel-config" .config
 syshook post-update-kernel-copy-config
 
 git add .
-git commit -m "Prepare for Kernel Build"
+git commit -m "Prepare for Kernel Build" || true
 
 # shellcheck disable=SC2153
 for BUNDLE in "${BUNDLES[@]}"

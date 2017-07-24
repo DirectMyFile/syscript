@@ -9,7 +9,7 @@ SCRIPTS=$(realpath "$(dirname $0)")
 
 BUILD_JOBS="32"
 KERNEL_DIR="$(dirname ${SCRIPTS})/Kernel"
-KERNEL_SUFFIX="dc"
+KERNEL_SUFFIX="syscript"
 KERNEL_CC="gcc"
 USE_CCACHE="true"
 USER_CFG_DIR="${SCRIPTS}"
@@ -62,7 +62,7 @@ fetch-apply-patch() {
   FILE=$(mktemp /tmp/syscript-patch.XXXXXX)
   curl --silent "${URL}" > ${FILE}
   echo "[Apply Patch] ${URL}"
-  git apply "${FILE}" "${@}"
+  git apply --ignore-whitespace "${FILE}" "${@}"
   rm "${FILE}"
 }
 
