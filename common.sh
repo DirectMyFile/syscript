@@ -24,6 +24,11 @@ then
   USER_CFG_DIR="$(dirname ${SCRIPTS})/UserConfigs"
 fi
 
+if [ -d "$(dirname ${SCRIPTS}/KernelConfigs)" ]
+then
+  USER_CFG_DIR="$(dirname ${SCRIPTS})/KernelConfigs"
+fi
+
 BUNDLES=()
 
 if [ -f "${USER_CFG_DIR}/configs/syscript.sh" ]

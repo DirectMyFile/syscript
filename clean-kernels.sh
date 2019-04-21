@@ -20,7 +20,7 @@ do
   echo "Removing ${VERSION}..."
   sudo rm -rf "/lib/modules/${VERSION}"
   sudo rm -rf "/usr/lib/modules/${VERSION}"
-  syshook clean-kernels-remove-version ${VERSION}
+  syshook clean-kernels-remove-version "${VERSION}"
 done
 
 syshook post-clean-kernels-remove
