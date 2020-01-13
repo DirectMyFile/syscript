@@ -7,8 +7,8 @@ source "$(dirname $0)/common.sh"
 goto-kernel-dir
 
 syshook pre-kernel-patch
-git checkout master
-git reset --hard origin/master
+git checkout "${KERNEL_BRANCH}"
+git reset --hard "origin/${KERNEL_BRANCH}"
 
 if [ -d "${USER_CFG_DIR}/patches" ]
 then

@@ -8,6 +8,7 @@ SCRIPTS=$(realpath "$(dirname $0)")
 ########################################
 
 BUILD_JOBS="32"
+KERNEL_BRANCH="master"
 KERNEL_DIR="$(dirname ${SCRIPTS})/Kernel"
 KERNEL_SUFFIX="syscript"
 KERNEL_CC="gcc"
@@ -71,6 +72,18 @@ fetch-apply-patch() {
   rm "${FILE}"
 }
 
+apply-patch() {
+  FILE="${1}"
+  echo "[Apply Patch] $(basename ${FILE})"
+  git apply "${FILE}" "${@}"
+}
+
+apply-raw-patch() {
+  FILE="${1}"
+  echo "[Apply Patch] $(basename ${FILE})"
+  patch -Np1 < "${FILE}"
+}
+
 source-if-exists() {
   SCRIPT="${1}"
   if [ -f "${SCRIPT}" ]
@@ -96,7 +109,7 @@ goto-kernel-dir() {
 syshook() {
   HOOK="${1}"
   shift
-  if [ -x "${USER_CFG_DIR}/hooks/${HOOK}" ]
+  if [ -f "${USER_CFG_DIR}/hooks/${HOOK}" ]
   then
     echo "[Hook] ${HOOK}"
     "${USER_CFG_DIR}/hooks/${HOOK}" "${@}"
@@ -104,8 +117,13 @@ syshook() {
 
   for BUNDLE in "${BUNDLES[@]}"
   do
-    source-if-exists "${SCRIPTS}/bundles/${BUNDLE}/${HOOK}"
+    BUNDLE_ROOT="${SCRIPTS}/bundles/${BUNDLE}"
+    if [ ! -d "${BUNDLE_ROOT}" ]
+    then
+      BUNDLE_ROOT="${USER_CFG_DIR}/bundles/${BUNDLE}"
+    fi
+    source-if-exists "${BUNDLE_ROOT}/${HOOK}"
   done
 }
 
-export SCRIPTS KERNEL_DIR BUILD_JOBS KERNEL_SUFFIX KERNEL_CC USER_CFG_DIR BUNDLES
+export SCRIPTS KERNEL_DIR BUILD_JOBS KERNEL_BRANCH KERNEL_SUFFIX KERNEL_CC USER_CFG_DIR BUNDLES

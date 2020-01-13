@@ -7,6 +7,6 @@ source "$(dirname $0)/common.sh"
 goto-kernel-dir
 
 git fetch --all
-git checkout master
-git reset --hard linus/master
-git push origin master --force
+git checkout "${KERNEL_BRANCH}"
+git reset --hard "upstream/${KERNEL_BRANCH}"
+git push origin "${KERNEL_BRANCH}" --force

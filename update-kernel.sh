@@ -11,7 +11,7 @@ sudo make mrproper
 
 syshook pre-update-kernel
 syshook pre-update-kernel-pull-changes
-git checkout master
+git checkout "${KERNEL_BRANCH}"
 git pull
 syshook post-update-kernel-pull-changes
 
@@ -45,15 +45,15 @@ syshook post-update-kernel-apply-config
 make ARCH="$(uname -m)" CC="${KERNEL_CC}" -j ${BUILD_JOBS}
 syshook post-update-kernel-make
 
-git reset --hard origin/master
+git reset --hard "origin/${KERNEL_BRANCH}"
 
 KERNEL_VERSION=$(strings vmlinux | grep "Linux version" | awk '{print $3}')
 
 sudo make modules_install
-sudo make headers_install
-sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-linux-${KERNEL_SUFFIX}
-sudo mkinitcpio -p linux-${KERNEL_SUFFIX}
-sudo cp System.map /boot/System.map-${KERNEL_SUFFIX}
+#sudo make headers_install
+sudo cp -v arch/x86/boot/bzImage "/boot/vmlinuz-linux-${KERNEL_SUFFIX}"
+sudo mkinitcpio -p "linux-${KERNEL_SUFFIX}"
+sudo cp System.map "/boot/System.map-${KERNEL_SUFFIX}"
 syshook post-update-kernel-tasks
 
 echo "[Updated Kernel] ${KERNEL_VERSION}"
